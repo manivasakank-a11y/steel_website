@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Upload CSV</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f6f8; }
+        .box { max-width: 450px; padding: 20px; background: #fff; border: 1px solid #ccc; border-radius: 8px; }
+        button { padding: 8px 16px; margin-top: 10px; cursor: pointer; }
+        .msg { margin-top: 12px; padding: 8px; border: 1px solid; border-radius: 6px; }
+        .msg.ok { background: #e6fff3; border-color: #38ef7d; }
+        .msg.error { background: #ffecec; border-color: #ff6b6b; }
+    </style>
+</head>
+<body>
+    <h1>Upload CSV to Database</h1>
+
+    <div class="box">
+        <form method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".csv" required>
+            <br>
+            <button type="submit">Upload</button>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, m in messages %}
+                <div class="msg {{ category }}">{{ m }}</div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+
+    <p><a href="{{ url_for('index') }}">&larr; Back to data table</a></p>
+</body>
+</html>

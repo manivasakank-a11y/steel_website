@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Steel Chemical Analysis</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        /* ---------- Animated background: blue, green, yellow ---------- */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(-45deg, #0072ff, #00b09b, #38ef7d, #f9d423, #1e90ff, #00c6ff);
+            background-size: 400% 400%;
+            animation: bgMove 18s ease infinite;
+            overflow: hidden;
+        }
+        @keyframes bgMove {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* floating bubbles */
+        .bubbles { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .bubbles span {
+            position: absolute;
+            bottom: -180px;
+            left: var(--l);
+            width: var(--s);
+            height: var(--s);
+            background: var(--c);
+            border-radius: 50%;
+            opacity: 0;
+            animation: rise var(--d) linear infinite;
+            animation-delay: var(--delay);
+        }
+        @keyframes rise {
+            0%   { transform: translateY(0) scale(1);       opacity: 0; }
+            10%  { opacity: 0.55; }
+            90%  { opacity: 0.35; }
+            100% { transform: translateY(-125vh) scale(1.25); opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            body, .bubbles span { animation: none; }
+        }
+
+        /* ---------- Card ---------- */
+        .box {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 380px;
+            padding: 26px;
+            background: rgba(255, 255, 255, 0.93);
+            border-radius: 14px;
+            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(6px);
+        }
+        h2 { margin: 0 0 16px; color: #0b3d5c; }
+
+        .tabs { display: flex; gap: 6px; margin-bottom: 18px; }
+        .tab {
+            flex: 1;
+            padding: 9px;
+            border: 1px solid #0b5d6b;
+            border-radius: 6px;
+            background: #fff;
+            color: #0b5d6b;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .tab.active { background: linear-gradient(135deg, #00b09b, #0072ff); color: #fff; border-color: transparent; }
+
+        label { display: block; font-size: 14px; color: #333; }
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 9px 10px;
+            margin: 5px 0 14px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        input:focus { outline: 2px solid #38ef7d; border-color: #00b09b; }
+        .submit {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #00b09b, #0072ff);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .submit:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0, 114, 255, 0.4); }
+
+        .msg { padding: 9px 12px; margin-bottom: 14px; border-radius: 6px; border: 1px solid; font-size: 14px; }
+        .msg.ok    { background: #e6fff3; border-color: #38ef7d; color: #0b5d3b; }
+        .msg.error { background: #ffecec; border-color: #ff6b6b; color: #8a1f1f; }
+        .note { font-size: 12px; color: #555; margin: 12px 0 0; }
+        .hp { position: absolute; left: -9999px; height: 0; width: 0; overflow: hidden; }   /* robot trap */
+    </style>
+</head>
+<body>
+
+    <!-- floating bubbles: blue, green, yellow -->
+    <div class="bubbles">
+        <span style="--s:70px;  --l:6%;  --d:16s; --delay:0s;  --c:#f9d423"></span>
+        <span style="--s:40px;  --l:15%; --d:12s; --delay:3s;  --c:#00c6ff"></span>
+        <span style="--s:100px; --l:25%; --d:20s; --delay:6s;  --c:#38ef7d"></span>
+        <span style="--s:55px;  --l:38%; --d:14s; --delay:1s;  --c:#0072ff"></span>
+        <span style="--s:85px;  --l:50%; --d:18s; --delay:8s;  --c:#f9d423"></span>
+        <span style="--s:35px;  --l:60%; --d:11s; --delay:4s;  --c:#00b09b"></span>
+        <span style="--s:110px; --l:70%; --d:22s; --delay:2s;  --c:#1e90ff"></span>
+        <span style="--s:50px;  --l:80%; --d:13s; --delay:9s;  --c:#ffe259"></span>
+        <span style="--s:75px;  --l:90%; --d:17s; --delay:5s;  --c:#38ef7d"></span>
+        <span style="--s:30px;  --l:46%; --d:10s; --delay:7s;  --c:#00c6ff"></span>
+    </div>
+
+    <div class="box">
+        <h2>Steel Chemical Analysis</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, m in messages %}
+                <div class="msg {{ category }}">{{ m }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <div class="tabs">
+            <button type="button" class="tab" id="tabLogin"    onclick="showTab('login')">Log in</button>
+            <button type="button" class="tab" id="tabRegister" onclick="showTab('register')">Create account</button>
+        </div>
+
+        <!-- Log in -->
+        <form method="post" action="{{ url_for('login') }}" id="loginForm">
+            <label>User ID</label>
+            <input type="text" name="username" required autocomplete="username"
+                   value="{{ form_username if tab != 'register' else '' }}">
+            <label>Password</label>
+            <input type="password" name="password" required autocomplete="current-password">
+            <button type="submit" class="submit">Log in</button>
+            <p class="note">Forgot your password? Ask the administrator.</p>
+        </form>
+
+        <!-- Create account -->
+        <form method="post" action="{{ url_for('register') }}" id="registerForm" autocomplete="off">
+            <label>Choose a User ID</label>
+            <input type="text" name="username" required minlength="3" maxlength="50"
+                   value="{{ form_username if tab == 'register' else '' }}">
+            <label>Password (8+ characters)</label>
+            <input type="password" name="password" required minlength="8" autocomplete="new-password">
+            <label>Repeat password</label>
+            <input type="password" name="confirm" required minlength="8" autocomplete="new-password">
+            {% if need_code %}
+                <label>Sign-up code</label>
+                <input type="text" name="code" required autocomplete="off">
+            {% endif %}
+            <div class="hp"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+            <button type="submit" class="submit">Create account</button>
+            <p class="note">The administrator must approve your account before you can log in.</p>
+        </form>
+    </div>
+
+    <script>
+        function showTab(name) {
+            var isLogin = (name === 'login');
+            document.getElementById('loginForm').style.display    = isLogin ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = isLogin ? 'none'  : 'block';
+            document.getElementById('tabLogin').classList.toggle('active', isLogin);
+            document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+        }
+        showTab({{ (tab or 'login')|tojson }});
+    </script>
+</body>
+</html>

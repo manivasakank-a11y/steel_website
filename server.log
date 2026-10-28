@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "c:\Users\LN-1001\steel_website\serve.py", line 7, in <module>
+    from waitress import serve
+ModuleNotFoundError: No module named 'waitress'
+2026-10-26 18:47:41,742 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-10-26 18:47:41,748 Added job "import_folder" to job store "default"
+2026-10-26 18:47:41,749 Scheduler started
+2026-10-26 18:47:41,751 Auto-import started: C:\Users\LN-1001\Desktop\ARS Input\LIMS Data every 3 min
+Starting server on http://127.0.0.1:5001
+2026-10-26 18:47:41,754 Running job "import_folder (trigger: interval[0:03:00], next run at: 2026-10-26 18:47:41 PDT)" (scheduled at 2026-10-26 18:47:41.737870-07:00)
+2026-10-26 18:47:41,779 Serving on http://127.0.0.1:5001
+2026-10-26 18:54:23,193 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-10-26 18:54:23,197 Added job "import_folder" to job store "default"
+2026-10-26 18:54:23,198 Scheduler started
+2026-10-26 18:54:23,199 Auto-import started: C:\Users\LN-1001\Desktop\ARS Input\LIMS Data every 3 min
+Starting server on http://127.0.0.1:5001
+2026-10-26 18:54:23,200 Running job "import_folder (trigger: interval[0:03:00], next run at: 2026-10-26 18:57:23 PDT)" (scheduled at 2026-10-26 18:54:23.189822-07:00)
+2026-10-26 18:54:23,217 Serving on http://127.0.0.1:5001
+2026-10-26 18:54:54,947 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-10-26 18:54:54,959 Added job "import_folder" to job store "default"
+2026-10-26 18:54:54,960 Scheduler started
+2026-10-26 18:54:55,088 Auto-import started: C:\Users\LN-1001\Desktop\ARS Input\LIMS Data every 3 min
+Starting server on http://127.0.0.1:5001
+2026-10-26 18:54:55,114 Running job "import_folder (trigger: interval[0:03:00], next run at: 2026-10-26 18:54:54 PDT)" (scheduled at 2026-10-26 18:54:54.942758-07:00)
+2026-10-26 18:54:55,218 Serving on http://127.0.0.1:5001

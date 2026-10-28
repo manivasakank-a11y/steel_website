@@ -1,0 +1,47 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: csv_upload_db
+    command: --character-set-server=utf8mb4
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD}"]
+      interval: 10s
+      retries: 10
+
+  web:
+    build: .
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      HOST: 0.0.0.0
+      DB_PASSWORD: ${DB_PASSWORD}
+      IMPORT_FOLDER: /import
+      DATA_DIR: /data
+      COOKIE_SECURE: "0"      # change to "1" when you open the site with an https:// link
+      BEHIND_TUNNEL: "0"      # change to "1" when the tunnel service below is used
+    ports:
+      - "8080:8080"
+    volumes:
+      - appdata:/data
+      - "C:/Users/LN-1001/Desktop/ARS Input/LIMS Data:/import"
+
+  # Public https link. Delete this whole block if you only need office/LAN access.
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    command: tunnel --no-autoupdate --url http://web:8080
+    depends_on:
+      - web
+
+volumes:
+  dbdata:
+  appdata:

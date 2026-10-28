@@ -1,0 +1,8 @@
+secret.key
+.env
+backup.sql
+import_state.db
+import_errors.txt
+*.csv
+__pycache__/
+*.pyc

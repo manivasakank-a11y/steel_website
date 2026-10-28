@@ -1,0 +1,6 @@
+secret.key
+import_state.db
+backup.sql
+.env
+__pycache__
+*.log

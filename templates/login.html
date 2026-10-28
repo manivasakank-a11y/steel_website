@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f8; }
+        .box { max-width: 320px; margin: 80px auto; padding: 24px; background: #fff;
+               border: 1px solid #ccc; border-radius: 8px; }
+        input { width: 100%; padding: 8px; margin: 6px 0 14px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; cursor: pointer; }
+        .error { color: #b00020; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Steel Chemical Analysis</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, m in messages %}
+                <div class="error">{{ m }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="post">
+            <label>User ID</label>
+            <input type="text" name="username" required autofocus autocomplete="username">
+            <label>Password</label>
+            <input type="password" name="password" required autocomplete="current-password">
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+</body>
+</html>
